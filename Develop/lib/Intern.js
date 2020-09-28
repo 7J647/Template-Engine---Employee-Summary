@@ -6,6 +6,9 @@ class Intern {
         this.email = email;
         this.school = school;
     }
+    getRole() {
+        
+    }
 }
 
 
