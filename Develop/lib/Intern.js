@@ -2,18 +2,38 @@
 const Employee = require("../lib/Employee");
 
 class Intern {
-    constructor(school) {
-        // this.name = name;
-        // this.id = id;
-        // this.email = email;
+    constructor (name, id, email, school){
+        this.name = name;
+        this.id = id;
+        this.email = email;
         this.school = school;
-    }
 }
-// getRole(){
-//     if (this.school) {
+
+    getRole () {
+        return "Intern";
+}
+}
+
+
+
+
+
+
+
+
+
+// class Intern {
+//     constructor(school) {
+//         // this.name = name;
+//         // this.id = id;
+//         // this.email = email;
+//         this.school = school;
+//     }
+
+//     getRole () {
 //         return "Intern";
 //     }
-// }
+//     }
 
 module.exports = Intern;
 
