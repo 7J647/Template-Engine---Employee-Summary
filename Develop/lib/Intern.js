@@ -8,32 +8,15 @@ class Intern {
         this.email = email;
         this.school = school;
 }
+    
+    getSchool () {
+    return this.school;
+}   
 
     getRole () {
         return "Intern";
 }
 }
-
-
-
-
-
-
-
-
-
-// class Intern {
-//     constructor(school) {
-//         // this.name = name;
-//         // this.id = id;
-//         // this.email = email;
-//         this.school = school;
-//     }
-
-//     getRole () {
-//         return "Intern";
-//     }
-//     }
 
 module.exports = Intern;
 
