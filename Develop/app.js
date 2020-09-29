@@ -10,9 +10,87 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+
+inquirer
+  .prompt([
+    // {
+    //   type: "confirm",
+    //   name: "isManager",
+    //   message: "Are you a Manager?",
+    //   default: true,
+    //   //async await here?
+    // },
+
+      {
+        type: "input",
+        name: "employeeName",
+        message: "Please enter the employee's name:",
+      },
+  
+
+    {
+      type: "input",
+      name: "EmployeeEmail",
+      message: "Please enter the employee's email address:",
+    },
+
+    {
+      type: "list",
+      name: "employeeType",
+      message: "Which type of employee are you adding?",
+      choices: ["Manager", "Engineer", "Intern"],
+    }, 
+
+    
+    {
+      type: "input",
+      name: "officePhone",
+      message: "Please enter the employee's office phone number:",
+      when: function(getRole) {
+        return getRole.employeeType = "Manager";
+        
+    }
+  }, 
+
+    // {
+    //   type: "input",
+    //   name: "github",
+    //   message: "Please enter the employee's GitHub username/handle:",
+    //   when: function(answers) {
+    //   return answers.employeeType === "Engineer";
+    // },
+
+    // {
+    //   type: "input",
+    //   name: "school",
+    //   message: "Please enter the employee's college:",
+    //   when: function( answers ) {
+    //   return answers.employeeType === "Intern";
+    // },
+  
+      
+
+
+      // if (choices="Manager") 
+      //   {inquirer
+      //     .prompt([
+
+      // {
+        
+    
+   //Do you want to enter another employee?
+
+  ])
+
+  .then(function(response) {
+    console.log(response);
+    // const readMeText = generateMarkdown(response);
+    // console.log(readMeText);
+    // fs.writeFileSync("./output/README.MD", readMeText);
+  });
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -32,4 +110,5 @@ const render = require("./lib/htmlRenderer");
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
+// for the provided `render` function to work! ```
 // for the provided `render` function to work! ```
