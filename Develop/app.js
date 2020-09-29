@@ -22,36 +22,26 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-
-//I THINK WE NEED TO SET UP AN ARRAY OF ALL EMPLOYEES
-//EACH WITH UNIQUE IDS STARTING FROM 0, add 1 to each employee.
-//CAN WE START WITH AN EMPLOYEE NUMBER OF 100 RATHER THAN ZERO?
-//HOW DO WE GET THE ID TO DO A ++?  FOR LOOP?
 const employeesArray = [];
-//HOW DO WE FILTER THESE BY TYPE?  .filter?
-//HOW ARE THESE RENDERED IN THE TEMPLATES?  DO WE EVEN USE THE TEMPLATES?
 
-//NEED TO DO A FUNCTION FOR THE "ALL" EMPLOYEES QUESTIONS
-//DO ALL EMPLOYEES GET TO USE THIS FUNCTION OR SHOULD WE HAVE
-//A MANAGER QUESTION FIRST TO BLOCK OUT ANYONE WHO IS NOT A 
-//MANAGE FROM USING?
+buildEmployee();
+
+//hoisting
+function buildEmployee () {
 
 inquirer
   .prompt([
-   
-   //SOMETHING LIKE THIS COULD BE THE DEFAULT QUESTION MAYBE?
-    // {
-    //   type: "confirm",
-    //   name: "isManager",
-    //   message: "Are you a Manager?",
-    //   default: true,
-    //   //async await here?
-    // },
 
       {
         type: "input",
         name: "employeeName",
         message: "Please enter the employee's name:",
+      },
+
+      {
+        type: "input",
+        name: "employeeID",
+        message: "Please enter the employee's ID:",
       },
   
 
@@ -68,42 +58,33 @@ inquirer
       choices: ["Manager", "Engineer", "Intern"],
     },
 
-    //HOW TO GO TO ADDITIONAL FUNCTIONS FOR ADDITIONAL EMPLOYEE
-    //QUESTIONS, THREE CATEGORIES?  IF/ELSE IF/ELSE STATEMENTS?
-    //HOW DO WE PUT AN INQUIRE.PROMPT INSIDE ANOTHER INQUIRE.PROMPT?
-    //CAN WE PUT THIS INSIDE THE .THEN?  
-    //WHERE ARE WE STORING THE USER'S RESPONSE HERE?
-
     { 
       type: "input",
       name: "officePhone",
       message: "Please enter the employee's office phone number:",
-      //"WHEN" DOESN'T DO ANYTHING HERE
-      when: "employeeType" === "Manager",
+      //"when" did end up being able to work, just needed arrow function
+      //I thought it made a lot of sense to do it this
+      when: answers => answers.employeeType === "Manager",
     
     }, 
 
     { 
-      type: "input",
-      name: "officePhone",
-      message: "Please enter the employee's office phone number:",
-    
-    }, 
-
-    {
       type: "input",
       name: "github",
       message: "Please enter the employee's GitHub username/handle:",
-
-    }, 
+      when: answers => answers.employeeType === "Engineer",
     
+    }, 
 
     {
       type: "input",
       name: "school",
-      message: "Please enter the employee's college:",
-  
-    },
+      message: "Please enter the employee's school:",
+    
+      when: answers => answers.employeeType === "Intern",
+
+    }, 
+    
   
       
 //DO WE NEED A FUNCTION TO ASK WHETHER THEY WANT TO ADD ANOTHER EMPLOYEE?
@@ -111,18 +92,76 @@ inquirer
 
   ])
 
-  .then(function(response) {
+  .then(function(response) {   
+
     console.log(response);
+    //take info from response, make a new manager, push new manager object into employees array
+    //NEED TO ADD IN QUESTION FOR ID
+
+    if (response.employeeType === "Engineer") {
+      const newEngineer = new Engineer(response.employeeName, response.employeeID, response.EmployeeEmail, response.github);
+      employeesArray.push(newEngineer);
+    }
+    
+    else if (response.employeeType === "Manager") {
+      const newManager = new Manager(response.employeeName, response.employeeID, response.EmployeeEmail, response.officePhone);
+      employeesArray.push(newManager);
+    }
+   
+    //using else if again in case they add another employee type
+    else if (response.employeeType === "Intern") {
+      const newIntern = new Intern(response.employeeName, response.employeeID, response.EmployeeEmail, response.school);
+      employeesArray.push(newIntern);
+    }
+    console.log(employeesArray);
+    buildAnother();
+   
+  })
+
+    .catch (function(throwError) {
+      throw throwError
+    });
+  //DO WE NEED .CATCH HERE?  IF ERR THROW ERR???
+
+}
+
+const buildAnother = () => {
+inquirer
+      .prompt (
+        {
+          type: "confirm",
+          name: "continue",
+          message: "Do you want to add another employee?",
+        },
+      )
+      .then(function(response) {   
+    
+        if (response.continue) {
+        //if they want to continue, 
+        buildEmployee();
+        }
+        else {
+          const employeesOutput = render (employeesArray);
+           fs.writeFileSync(outputPath, employeesOutput);
+          //render
+           //else use render function write file
+
     //WHAT DO WE DO WITH THE RESPONSE?
     //IS THIS SIMILAR TO FS.WRITEFILE IN LAST HOMEWORK?  fs.writeFileSync("./output/README.MD", readMeText);
     //EXCEPT WE WRITE IT TO TEAM.HTML USING OUTPUTPATH VARIABLE ABOVE? 
-    //fs.writeFileSync("outputPath", output); ??????????
-  });
-  //DO WE NEED .CATCH HERE?  IF ERR THROW ERR???
+    //fs.writeFileSync(outputPath, output); ??????????
+        }
+      
+      })
+      .catch (function(throwError) {
+        throw throwError
+      });
+    }
 
 
   //HOW DO YOU PASS IN THE ARRAY OF EMPLOYEE OBJECTS
-  //"SOMETHING" .push(employeesArray)?????
+ 
+  //employeesArray.push(SOMETHING)
 
   //HOW DO YOU CALL THE RENDER FUNCTION??? 
   //SIMPLE AS render(employeesArray)???
