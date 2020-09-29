@@ -1,6 +1,7 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+
 //WHAT ARE WE DOING WITH THE ABOVE VARIABLES?
 //USING new Employee(parameter 1, parameter 2, etc.)??
 //new Manager(name, id, email, officeNumber)
@@ -26,7 +27,7 @@ const employeesArray = [];
 
 buildEmployee();
 
-//hoisting
+//hoisting--arrow function wouldn't work on this
 function buildEmployee () {
 
 inquirer
@@ -47,7 +48,7 @@ inquirer
 
     {
       type: "input",
-      name: "EmployeeEmail",
+      name: "employeeEmail",
       message: "Please enter the employee's email address:",
     },
 
@@ -62,8 +63,8 @@ inquirer
       type: "input",
       name: "officePhone",
       message: "Please enter the employee's office phone number:",
-      //"when" did end up being able to work, just needed arrow function
-      //I thought it made a lot of sense to do it this
+      //"when" did end up being able to work, just needed arrow function.  Thank you Josh!
+      //I thought it made a lot of sense to do it like this
       when: answers => answers.employeeType === "Manager",
     
     }, 
@@ -85,32 +86,27 @@ inquirer
 
     }, 
     
-  
-      
-//DO WE NEED A FUNCTION TO ASK WHETHER THEY WANT TO ADD ANOTHER EMPLOYEE?
-//HOW DO WE STOP IT IF THEY DON'T WANT TO ADD ANY MORE?
 
   ])
 
   .then(function(response) {   
 
     console.log(response);
-    //take info from response, make a new manager, push new manager object into employees array
-    //NEED TO ADD IN QUESTION FOR ID
+   
+     //take info from response, make a new manager, push new manager object into employees array
+    if (response.employeeType === "Manager") {
+      const newManager = new Manager(response.employeeName, response.employeeID, response.employeeEmail, response.officePhone);
+      employeesArray.push(newManager);
+    }
 
-    if (response.employeeType === "Engineer") {
-      const newEngineer = new Engineer(response.employeeName, response.employeeID, response.EmployeeEmail, response.github);
+    else if (response.employeeType === "Engineer") {
+      const newEngineer = new Engineer(response.employeeName, response.employeeID, response.employeeEmail, response.github);
       employeesArray.push(newEngineer);
     }
     
-    else if (response.employeeType === "Manager") {
-      const newManager = new Manager(response.employeeName, response.employeeID, response.EmployeeEmail, response.officePhone);
-      employeesArray.push(newManager);
-    }
-   
-    //using else if again in case they add another employee type
+    //using else if again, rather than just else, in case they add another employee type
     else if (response.employeeType === "Intern") {
-      const newIntern = new Intern(response.employeeName, response.employeeID, response.EmployeeEmail, response.school);
+      const newIntern = new Intern(response.employeeName, response.employeeID, response.employeeEmail, response.school);
       employeesArray.push(newIntern);
     }
     console.log(employeesArray);
@@ -121,9 +117,11 @@ inquirer
     .catch (function(throwError) {
       throw throwError
     });
-  //DO WE NEED .CATCH HERE?  IF ERR THROW ERR???
 
 }
+
+//ANOTHER FUNCTION NEEDED TO ASK WHETHER THEY WANT TO ADD ANOTHER EMPLOYEE?
+//HOW DO WE STOP IT IF THEY DON'T WANT TO ADD ANY MORE?  the app just stops running, no need to "stop" it.
 
 const buildAnother = () => {
 inquirer
@@ -143,7 +141,6 @@ inquirer
         else {
           const employeesOutput = render (employeesArray);
            fs.writeFileSync(outputPath, employeesOutput);
-          //render
            //else use render function write file
 
     //WHAT DO WE DO WITH THE RESPONSE?
@@ -166,10 +163,12 @@ inquirer
   //HOW DO YOU CALL THE RENDER FUNCTION??? 
   //SIMPLE AS render(employeesArray)???
 
+  //HOW DO WE TEST OUT EACH CLASS AND VERIFY IT GENERATES AN OBJECT WITH THE CORRECT
+//STRUCTURE AND METHODS?--console.log the employees array
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
-
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
@@ -180,10 +179,6 @@ inquirer
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
-
-
-//HOW DO WE TEST OUT EACH CLASS AND VERIFY IT GENERATES AN OBJECT WITH THE CORRECT
-//STRUCTURE AND METHODS?
 
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
