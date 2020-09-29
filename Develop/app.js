@@ -2,6 +2,11 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 //WHAT ARE WE DOING WITH THE ABOVE VARIABLES?
+//USING new Employee(parameter 1, parameter 2, etc.)??
+//new Manager(name, id, email, officeNumber)
+//new Engineer(name, id, email, github)
+//new Intern (name, id, email, school)
+//HOW DO WE GET THE INFORMATION FROM QUESTIONS TO POPULATE?
 
 
 const inquirer = require("inquirer");
@@ -10,6 +15,7 @@ const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
+//WHAT ARE WE DOING WITH OUTPUTPATH ABOVE?  DOES THIS GO INTO THE FS WRITEFILE?
 
 const render = require("./lib/htmlRenderer");
 
@@ -18,8 +24,12 @@ const render = require("./lib/htmlRenderer");
 
 
 //I THINK WE NEED TO SET UP AN ARRAY OF ALL EMPLOYEES
-//EACH WITH UNIQUE IDS STARTING FROM 0, add 1 to each employee
+//EACH WITH UNIQUE IDS STARTING FROM 0, add 1 to each employee.
+//CAN WE START WITH AN EMPLOYEE NUMBER OF 100 RATHER THAN ZERO?
+//HOW DO WE GET THE ID TO DO A ++?  FOR LOOP?
 const employeesArray = [];
+//HOW DO WE FILTER THESE BY TYPE?  .filter?
+//HOW ARE THESE RENDERED IN THE TEMPLATES?  DO WE EVEN USE THE TEMPLATES?
 
 //NEED TO DO A FUNCTION FOR THE "ALL" EMPLOYEES QUESTIONS
 //DO ALL EMPLOYEES GET TO USE THIS FUNCTION OR SHOULD WE HAVE
@@ -59,7 +69,10 @@ inquirer
     },
 
     //HOW TO GO TO ADDITIONAL FUNCTIONS FOR ADDITIONAL EMPLOYEE
-    //QUESTIONS, THREE CATEGORIES?
+    //QUESTIONS, THREE CATEGORIES?  IF/ELSE IF/ELSE STATEMENTS?
+    //HOW DO WE PUT AN INQUIRE.PROMPT INSIDE ANOTHER INQUIRE.PROMPT?
+    //CAN WE PUT THIS INSIDE THE .THEN?  
+    //WHERE ARE WE STORING THE USER'S RESPONSE HERE?
 
     { 
       type: "input",
@@ -100,20 +113,24 @@ inquirer
 
   .then(function(response) {
     console.log(response);
-    // const readMeText = generateMarkdown(response);
-    // console.log(readMeText);
-    // fs.writeFileSync("./output/README.MD", readMeText);
+    //WHAT DO WE DO WITH THE RESPONSE?
+    //IS THIS SIMILAR TO FS.WRITEFILE IN LAST HOMEWORK?  fs.writeFileSync("./output/README.MD", readMeText);
+    //EXCEPT WE WRITE IT TO TEAM.HTML USING OUTPUTPATH VARIABLE ABOVE? 
+    //fs.writeFileSync("outputPath", output); ??????????
   });
+  //DO WE NEED .CATCH HERE?  IF ERR THROW ERR???
 
-  //HOW DO YOU CALL THE RENDER FUNCTION AND PASS IN THE ARRAY OF EMPLOYEE OBJECTS
+
+  //HOW DO YOU PASS IN THE ARRAY OF EMPLOYEE OBJECTS
   //"SOMETHING" .push(employeesArray)?????
+
+  //HOW DO YOU CALL THE RENDER FUNCTION??? 
+  //SIMPLE AS render(employeesArray)???
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-
-//IS THIS SIMILAR TO FS.WRITEFILE IN LAST HOMEWORK?  fs.writeFileSync("./output/README.MD", readMeText);
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
