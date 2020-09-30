@@ -1,0 +1,18 @@
+body {
+    background-image: url("./Develop/output/officephoto.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+h1 {
+    text-shadow: 3px 3px 6px #000000;
+}
+
+h2 {
+    color: blue;
+}
+
+h3 {
+    color: blue;
+}
