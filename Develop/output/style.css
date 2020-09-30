@@ -1,0 +1,17 @@
+body {
+    background-image: url("./officephoto.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.card-title  {
+    color: blue;
+    /* text-shadow: .5px .5px px #000000; */
+    /* text-align: center; */
+}
+
+h1 {
+    text-shadow: 3px 3px 6px #000000;
+}
+
