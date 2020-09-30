@@ -15,7 +15,7 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "index.html");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 //WHAT ARE WE DOING WITH OUTPUTPATH ABOVE?  DOES THIS GO INTO THE FS WRITEFILE?
 
 const render = require("./lib/htmlRenderer");
